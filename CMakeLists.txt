@@ -13,3 +13,18 @@ target_include_directories(${T} PRIVATE ${RAYLIB_DIR}/include)
 target_link_directories(${T} PRIVATE ${RAYLIB_DIR}/lib)
 target_link_libraries(${T} PRIVATE raylib m)
 target_compile_options(${T} PRIVATE -Wall -Wextra -pedantic)
+
+add_custom_command(
+        TARGET ${T}
+        POST_BUILD
+
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${T}>/textures"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/textures"
+        "$<TARGET_FILE_DIR:${T}>/textures"
+
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${T}>/shaders"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/shaders"
+        "$<TARGET_FILE_DIR:${T}>/shaders"
+)
